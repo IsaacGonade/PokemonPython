@@ -62,11 +62,11 @@ def main():
                 pokemons.append(pokemon)
                 print("Pokemon añadido a la pokedex!\n")
             case 2:
-                # Verificar si la lista está vacía
+                #verificar si la lista está vacia
                 if len(pokemons) == 0:
                     print("No hay pokemons en la pokedex")
                 else:
-                    # Mostrar los Pokémon almacenados
+                    #mostrar los pokemon de la lista
                     for i, pokemon in enumerate(pokemons, 1):
                         print(f"{i}. {pokemon}\n")
             case 3:
