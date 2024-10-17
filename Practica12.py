@@ -6,13 +6,13 @@ class Pokemon:
     def __init__(self, nombre, id, peso, altura, tipo):
         self.nombre = nombre
         self.id = id
-        self.peso = peso
-        self.altura = altura
+        self.peso = float(peso)
+        self.altura = float(altura)
         self.tipo = tipo
 
     #esta funcion hace que cuando se tenga que imprimir un objeto de la clase se escriba con este formato
     def __str__(self):
-        return f"Nombre :{self.nombre} Id: {self.id} Peso: {self.peso} Altura: {self.altura} Tipo: {self.tipo}"
+        return f"Nombre :{self.nombre} Id: {self.id} Peso: {self.peso}kgs Altura: {self.altura}m Tipo: {self.tipo}"
 
 
 # Función para obtener un pokemon desde su API
@@ -28,7 +28,7 @@ def obtener_pokemon(pokemon):
             print("Altura: ", datos["height"])
             print("Tipo(s): ")
             for type in datos["types"]:  # types es una lista
-                print(type["type"]["name"])
+                print(type["type"]["name\n"])
         else:
             print(f"Error: {respuesta.status_code}; el pokemon {pokemon} no se ha encontrado")
     except requests.exceptions.RequestException as e:
@@ -45,10 +45,12 @@ def main():
         print("2. Listar pokemons")
         print("3. Eliminar pokemon")
         print("4. Consultar la pokedex real")
-        print("5. Salir")
+        print("5. Ver los ID de todos los pokemons")
+        print("6. Salir")
         opcion = int(input("Selecciona una opción: "))
 
         match opcion:
+            #pido todas las variables al usuario y la meto en un objeto de la clase pokemon
             case 1:
                 nombre = input("Nombre del pokemon: ")
                 id = input("Id del pokemon: ")
@@ -56,25 +58,35 @@ def main():
                 altura = input("Altura del pokemon: ")
                 tipo = input("Tipo del pokemon: ")
                 pokemon = Pokemon(nombre, id, peso, altura, tipo)
+                #añado el objeto creado a la lista
                 pokemons.append(pokemon)
-                print("Pokemon añadido a la pokedex!")
+                print("Pokemon añadido a la pokedex!\n")
             case 2:
-                # len lo que hace es contar los elementos dentro de la lista y si hay cero pues hace eso
+                # Verificar si la lista está vacía
                 if len(pokemons) == 0:
                     print("No hay pokemons en la pokedex")
-                for i, tarea in enumerate(pokemons, 1):
-                    print(f"{i}. {pokemon}")
+                else:
+                    # Mostrar los Pokémon almacenados
+                    for i, pokemon in enumerate(pokemons, 1):
+                        print(f"{i}. {pokemon}\n")
             case 3:
+                #pido al usuario que introduzca el número del pokemon que desea eliminar, se resta 1 porque los índices de las listas en python comienzan desde 0
                 indice = int(input("Número del pokemon a eliminar: ")) - 1
                 if 0 <= indice < len(pokemons):
+                    #la funcion pop se usa para eliminar el pokemon de la lista pokemons en la posición indicada por indice
                     pokemons.pop(indice)
-                    print("Pokemon eliminado")
+                    print("Pokemon eliminado\n")
                 else:
-                    print("Ese pokemon no existe")
+                    print("Ese pokemon no existe\n")
             case 4:
+                #llamo a la funcion del api
                 pokemon = input("Dime el nombre o número del POKEMON a buscar: ").lower()
                 obtener_pokemon(pokemon)
             case 5:
+                #funcion lambda que muestra los ids de todos los pokemons que hay en la lista
+                ids = list(map(lambda p: p.id, pokemons))
+                print(f"Id de todos los pokemons: {ids}")
+            case 6:
                 print("¡Hasta luego!")
                 break
 
