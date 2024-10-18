@@ -28,7 +28,7 @@ def obtener_pokemon(pokemon):
             print("Altura: ", datos["height"])
             print("Tipo(s): ")
             for type in datos["types"]:  # types es una lista
-                print(type["type"]["name\n"])
+                print(type["type"]["name"])
         else:
             print(f"Error: {respuesta.status_code}; el pokemon {pokemon} no se ha encontrado")
     except requests.exceptions.RequestException as e:
